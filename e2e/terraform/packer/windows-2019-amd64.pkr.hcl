@@ -1,7 +1,7 @@
 locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
 
-source "amazon-ebs" "latest_windows_2016" {
-  ami_name       = "nomad-e2e-windows-2016-amd64-${local.timestamp}"
+source "amazon-ebs" "latest_windows_2019" {
+  ami_name       = "nomad-e2e-windows-2019-amd64-${local.timestamp}"
   communicator   = "winrm"
   instance_type  = "t2.medium"
   region         = "us-east-1"
@@ -12,7 +12,7 @@ source "amazon-ebs" "latest_windows_2016" {
 
   source_ami_filter {
     filters = {
-      name                = "Windows_Server-2016-English-Full-Base-*"
+      name                = "Windows_Server-2019-English-Full-ContainersLatest-*"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
@@ -21,30 +21,28 @@ source "amazon-ebs" "latest_windows_2016" {
   }
 
   tags = {
-    OS = "Windows2016"
+    OS = "Windows2019"
   }
 }
 
 build {
-  sources = ["source.amazon-ebs.latest_windows_2016"]
+  sources = ["source.amazon-ebs.latest_windows_2019"]
 
   provisioner "powershell" {
-    elevated_user     = "Administrator"
     elevated_password = build.Password
+    elevated_user     = "Administrator"
 
     scripts = [
       "windows-shared/disable-windows-updates.ps1",
       "windows-shared/fix-tls.ps1",
       "windows-shared/install-nuget.ps1",
       "windows-shared/install-tools.ps1",
-      "windows-2016-amd64/install-docker.ps1",
+      "windows-2019-amd64/install-docker.ps1",
       "windows-shared/setup-directories.ps1",
       "windows-shared/install-openssh.ps1",
       "windows-shared/install-consul.ps1"
     ]
   }
-
-  provisioner "windows-restart" {}
 
   provisioner "file" {
     destination = "/opt"
@@ -57,8 +55,8 @@ build {
   }
 
   provisioner "powershell" {
-    elevated_user     = "Administrator"
     elevated_password = build.Password
+    elevated_user     = "Administrator"
     inline            = ["/opt/provision.ps1 -nomad_version 0.12.7 -nostart"]
   }
 
