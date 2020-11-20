@@ -44,6 +44,7 @@ endif
 # On MacOS, we only build for MacOS
 ifeq (Darwin,$(THIS_OS))
 ALL_TARGETS += darwin_amd64
+ALL_TARGETS += darwin_arm64
 # Copy CGO files for darwin into place
 endif
 
@@ -63,6 +64,16 @@ pkg/darwin_amd64/nomad: $(SOURCE_FILES) ## Build Nomad for darwin/amd64
 		-ldflags $(GO_LDFLAGS) \
 		-tags "$(GO_TAGS)" \
 		-o "$@"
+
+pkg/darwin_arm64/nomad: $(SOURCE_FILES) ## Build Nomad for darwin/arm64
+	@echo "==> Building $@ with tags $(GO_TAGS)..."
+	@CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 \
+		go build \
+		-trimpath \
+		-ldflags $(GO_LDFLAGS) \
+		-tags "$(GO_TAGS)" \
+		-o "$@"
+	@codesign -s - "$@"
 
 pkg/freebsd_amd64/nomad: $(SOURCE_FILES) ## Build Nomad for freebsd/amd64
 	@echo "==> Building $@..."
