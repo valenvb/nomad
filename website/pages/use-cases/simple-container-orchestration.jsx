@@ -2,8 +2,11 @@ import UseCasesLayout from 'layouts/use-cases'
 import TextSplitWithCode from '@hashicorp/react-text-split-with-code'
 import TextSplitWithImage from '@hashicorp/react-text-split-with-image'
 import FeaturedSliderSection from 'components/featured-slider-section'
+// deps below are used in getStaticProps only
+import highlightString from '@hashicorp/nextjs-scripts/prism/highlight-string'
+import traverse, { isObject } from '@hashicorp/nextjs-scripts/lib/traverse'
 
-export default function SimpleContainerOrchestrationPage() {
+export default function SimpleContainerOrchestrationPage({ codeBlocks }) {
   return (
     <UseCasesLayout
       title="Simple Container Orchestration"
@@ -24,17 +27,8 @@ export default function SimpleContainerOrchestrationPage() {
           ],
         }}
         codeBlock={{
-          code: `task "webservice" {
-  driver = "docker"
-
-  config {
-    image = "redis:3.2"
-    labels {
-      group = "webservice-cache"
-    }
-  }
-}`,
-          language: 'hcl',
+          options: { hideClipboard: true },
+          ...codeBlocks.containerOrchestration,
         }}
       />
 
@@ -67,18 +61,8 @@ export default function SimpleContainerOrchestrationPage() {
           ],
         }}
         codeBlock={{
-          code: `sc.exe start "Nomad"
-
-SERVICE_NAME: Nomad
-      TYPE               : 10  WIN32_OWN_PROCESS
-      STATE              : 4  RUNNING
-                              (STOPPABLE, NOT_PAUSABLE, ACCEPTS_SHUTDOWN)
-      WIN32_EXIT_CODE    : 0  (0x0)
-      SERVICE_EXIT_CODE  : 0  (0x0)
-      CHECKPOINT         : 0x0
-      WAIT_HINT          : 0x0
-      PID                : 8008
-      FLAGS              :`,
+          options: { hideClipboard: true },
+          ...codeBlocks.windowsSupport,
         }}
       />
 
@@ -97,8 +81,8 @@ SERVICE_NAME: Nomad
           ],
         }}
         codeBlock={{
-          code: 'nomad server join 1.2.3.4:4648',
-          prefix: 'dollar',
+          options: { hideClipboard: true },
+          ...codeBlocks.multiRegionFederation,
         }}
       />
 
@@ -274,4 +258,49 @@ SERVICE_NAME: Nomad
       />
     </UseCasesLayout>
   )
+}
+
+export async function getStaticProps() {
+  //  We manage code block content in getStaticProps,
+  //  so that we can process it at build time
+  const codeBlocksRaw = {
+    containerOrchestration: {
+      code: `task "webservice" {
+  driver = "docker"
+
+  config {
+    image = "redis:3.2"
+    labels {
+      group = "webservice-cache"
+    }
+  }
+}`,
+      language: 'hcl',
+    },
+    windowsSupport: {
+      code: `sc.exe start "Nomad"
+
+SERVICE_NAME: Nomad
+      TYPE               : 10  WIN32_OWN_PROCESS
+      STATE              : 4  RUNNING
+                              (STOPPABLE, NOT_PAUSABLE, ACCEPTS_SHUTDOWN)
+      WIN32_EXIT_CODE    : 0  (0x0)
+      SERVICE_EXIT_CODE  : 0  (0x0)
+      CHECKPOINT         : 0x0
+      WAIT_HINT          : 0x0
+      PID                : 8008
+      FLAGS              :`,
+    },
+    multiRegionFederation: {
+      code: `$ nomad server join 1.2.3.4:4648`,
+      language: 'shell-session',
+    },
+  }
+
+  const codeBlocks = await traverse(codeBlocksRaw, async (k, v) => {
+    if (k && isObject(v)) v.code = await highlightString(v.code, v.language)
+    return v
+  })
+
+  return { props: { codeBlocks } }
 }
