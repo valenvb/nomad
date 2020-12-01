@@ -7,7 +7,7 @@
     "node": "12.x"
   },
   "dependencies": {
-    "@hashicorp/nextjs-scripts": "^13.3.0",
+    "@hashicorp/nextjs-scripts": "^13.4.0-canary.1",
     "@hashicorp/react-alert-banner": "4.2.0",
     "@hashicorp/react-button": "3.0.2",
     "@hashicorp/react-call-to-action": "0.2.8",
@@ -27,7 +27,7 @@
     "@hashicorp/react-subnav": "6.0.0",
     "@hashicorp/react-text-and-content": "4.1.8",
     "@hashicorp/react-text-split": "0.4.4",
-    "@hashicorp/react-text-split-with-code": "0.2.4",
+    "@hashicorp/react-text-split-with-code": "^1.0.2-alpha.15",
     "@hashicorp/react-text-split-with-image": "1.4.4",
     "@hashicorp/react-use-cases": "2.0.1",
     "@hashicorp/react-vertical-text-block-list": "3.0.0",
