@@ -56,12 +56,15 @@ func eventFromChange(change memdb.Change) (structs.Event, bool) {
 			if !ok {
 				return structs.Event{}, false
 			}
+
+			// Copy token and empty out secret ID
+			token := before.Copy()
+			token.SecretID = ""
+
 			return structs.Event{
-				Topic: structs.TopicACLToken,
-				Key:   before.AccessorID,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: before,
-				},
+				Topic:   structs.TopicACLToken,
+				Key:     token.AccessorID,
+				Payload: structs.NewACLTokenEvent(before.SecretID, token),
 			}, true
 		case "acl_policy":
 			before, ok := change.Before.(*structs.ACLPolicy)
@@ -71,7 +74,7 @@ func eventFromChange(change memdb.Change) (structs.Event, bool) {
 			return structs.Event{
 				Topic: structs.TopicACLPolicy,
 				Key:   before.Name,
-				Payload: structs.ACLPolicyEvent{
+				Payload: &structs.ACLPolicyEvent{
 					ACLPolicy: before,
 				},
 			}, true
@@ -102,12 +105,15 @@ func eventFromChange(change memdb.Change) (structs.Event, bool) {
 		if !ok {
 			return structs.Event{}, false
 		}
+
+		// Copy token and empty out secret ID
+		token := after.Copy()
+		token.SecretID = ""
+
 		return structs.Event{
-			Topic: structs.TopicACLToken,
-			Key:   after.AccessorID,
-			Payload: structs.ACLTokenEvent{
-				ACLToken: after,
-			},
+			Topic:   structs.TopicACLToken,
+			Key:     token.AccessorID,
+			Payload: structs.NewACLTokenEvent(after.SecretID, token),
 		}, true
 	case "acl_policy":
 		after, ok := change.After.(*structs.ACLPolicy)
@@ -117,7 +123,7 @@ func eventFromChange(change memdb.Change) (structs.Event, bool) {
 		return structs.Event{
 			Topic: structs.TopicACLPolicy,
 			Key:   after.Name,
-			Payload: structs.ACLPolicyEvent{
+			Payload: &structs.ACLPolicyEvent{
 				ACLPolicy: after,
 			},
 		}, true

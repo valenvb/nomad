@@ -120,6 +120,19 @@ type NodeStreamEvent struct {
 
 type ACLTokenEvent struct {
 	ACLToken *ACLToken
+	secretID string
+}
+
+// NewACLTokenEvent takes a secretID and token and creates a new ACLTokenEvent.
+func NewACLTokenEvent(secretID string, token *ACLToken) *ACLTokenEvent {
+	return &ACLTokenEvent{
+		ACLToken: token,
+		secretID: secretID,
+	}
+}
+
+func (a *ACLTokenEvent) SecretID() string {
+	return a.secretID
 }
 
 type ACLPolicyEvent struct {
