@@ -135,7 +135,7 @@ func TestEventBroker_handleACLUpdates_TokenDeleted(t *testing.T) {
 	aclEvent := structs.Event{
 		Topic:   structs.TopicACLToken,
 		Type:    structs.TypeACLTokenDeleted,
-		Payload: structs.NewACLTokenEvent("foo", &structs.ACLToken{}),
+		Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: "foo"}),
 	}
 
 	publisher.Publish(&structs.Events{Index: 100, Events: []structs.Event{aclEvent}})
@@ -205,13 +205,9 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 				},
 			},
 			policyEvent: structs.Event{
-				Topic: structs.TopicACLToken,
-				Type:  structs.TypeACLTokenUpserted,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: &structs.ACLToken{
-						SecretID: secretID,
-					},
-				},
+				Topic:   structs.TopicACLToken,
+				Type:    structs.TypeACLTokenUpserted,
+				Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: secretID}),
 			},
 		},
 		{
@@ -229,13 +225,9 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 				},
 			},
 			policyEvent: structs.Event{
-				Topic: structs.TopicACLToken,
-				Type:  structs.TypeACLTokenUpserted,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: &structs.ACLToken{
-						SecretID: secretID,
-					},
-				},
+				Topic:   structs.TopicACLToken,
+				Type:    structs.TypeACLTokenUpserted,
+				Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: secretID}),
 			},
 		},
 		{
@@ -253,13 +245,9 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 				},
 			},
 			policyEvent: structs.Event{
-				Topic: structs.TopicACLToken,
-				Type:  structs.TypeACLTokenUpserted,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: &structs.ACLToken{
-						SecretID: secretID,
-					},
-				},
+				Topic:   structs.TopicACLToken,
+				Type:    structs.TypeACLTokenUpserted,
+				Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: secretID}),
 			},
 		},
 		{
@@ -277,13 +265,9 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 				},
 			},
 			policyEvent: structs.Event{
-				Topic: structs.TopicACLToken,
-				Type:  structs.TypeACLTokenUpserted,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: &structs.ACLToken{
-						SecretID: secretID,
-					},
-				},
+				Topic:   structs.TopicACLToken,
+				Type:    structs.TypeACLTokenUpserted,
+				Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: secretID}),
 			},
 		},
 		{
@@ -301,13 +285,9 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 				},
 			},
 			policyEvent: structs.Event{
-				Topic: structs.TopicACLToken,
-				Type:  structs.TypeACLTokenUpserted,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: &structs.ACLToken{
-						SecretID: secretID,
-					},
-				},
+				Topic:   structs.TopicACLToken,
+				Type:    structs.TypeACLTokenUpserted,
+				Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: secretID}),
 			},
 		},
 		{
@@ -325,13 +305,9 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 				},
 			},
 			policyEvent: structs.Event{
-				Topic: structs.TopicACLToken,
-				Type:  structs.TypeACLTokenUpserted,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: &structs.ACLToken{
-						SecretID: secretID,
-					},
-				},
+				Topic:   structs.TopicACLToken,
+				Type:    structs.TypeACLTokenUpserted,
+				Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: secretID}),
 			},
 		},
 		{
@@ -349,13 +325,9 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 				},
 			},
 			policyEvent: structs.Event{
-				Topic: structs.TopicACLToken,
-				Type:  structs.TypeACLTokenUpserted,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: &structs.ACLToken{
-						SecretID: secretID,
-					},
-				},
+				Topic:   structs.TopicACLToken,
+				Type:    structs.TypeACLTokenUpserted,
+				Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: secretID}),
 			},
 		},
 		{
@@ -373,13 +345,9 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 				},
 			},
 			policyEvent: structs.Event{
-				Topic: structs.TopicACLToken,
-				Type:  structs.TypeACLTokenUpserted,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: &structs.ACLToken{
-						SecretID: secretID,
-					},
-				},
+				Topic:   structs.TopicACLToken,
+				Type:    structs.TypeACLTokenUpserted,
+				Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: secretID}),
 			},
 		},
 		{
@@ -396,13 +364,9 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 				},
 			},
 			policyEvent: structs.Event{
-				Topic: structs.TopicACLToken,
-				Type:  structs.TypeACLTokenUpserted,
-				Payload: structs.ACLTokenEvent{
-					ACLToken: &structs.ACLToken{
-						SecretID: secretID,
-					},
-				},
+				Topic:   structs.TopicACLToken,
+				Type:    structs.TypeACLTokenUpserted,
+				Payload: structs.NewACLTokenEvent(&structs.ACLToken{SecretID: secretID}),
 			},
 		},
 		{
@@ -422,7 +386,7 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 			policyEvent: structs.Event{
 				Topic: structs.TopicACLPolicy,
 				Type:  structs.TypeACLPolicyUpserted,
-				Payload: structs.ACLPolicyEvent{
+				Payload: &structs.ACLPolicyEvent{
 					ACLPolicy: &structs.ACLPolicy{
 						Name: "some-policy",
 					},
@@ -446,7 +410,7 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 			policyEvent: structs.Event{
 				Topic: structs.TopicACLPolicy,
 				Type:  structs.TypeACLPolicyUpserted,
-				Payload: structs.ACLPolicyEvent{
+				Payload: &structs.ACLPolicyEvent{
 					ACLPolicy: &structs.ACLPolicy{
 						Name: "some-policy",
 					},
@@ -470,7 +434,7 @@ func TestEventBroker_handleACLUpdates_policyupdated(t *testing.T) {
 			policyEvent: structs.Event{
 				Topic: structs.TopicACLPolicy,
 				Type:  structs.TypeACLPolicyDeleted,
-				Payload: structs.ACLPolicyEvent{
+				Payload: &structs.ACLPolicyEvent{
 					ACLPolicy: &structs.ACLPolicy{
 						Name: "some-policy",
 					},

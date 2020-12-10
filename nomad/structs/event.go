@@ -123,11 +123,15 @@ type ACLTokenEvent struct {
 	secretID string
 }
 
-// NewACLTokenEvent takes a secretID and token and creates a new ACLTokenEvent.
-func NewACLTokenEvent(secretID string, token *ACLToken) *ACLTokenEvent {
+// NewACLTokenEvent takes a token and creates a new ACLTokenEvent.  It creates
+// a copy of the passed in ACLToken and empties out the copied tokens SecretID
+func NewACLTokenEvent(token *ACLToken) *ACLTokenEvent {
+	c := token.Copy()
+	c.SecretID = ""
+
 	return &ACLTokenEvent{
-		ACLToken: token,
-		secretID: secretID,
+		ACLToken: c,
+		secretID: token.SecretID,
 	}
 }
 
