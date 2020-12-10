@@ -3403,7 +3403,7 @@ func TestFSM_ACLEvents_ACLToken(t *testing.T) {
 			sub, err := broker.Subscribe(subReq)
 			require.NoError(t, err)
 
-			deadline := time.Duration(testutil.TestMultiplier()*300) * time.Millisecond
+			deadline := time.Duration(testutil.TestMultiplier()*500) * time.Millisecond
 			ctx, cancel := context.WithDeadline(context.Background(), time.Now().Add(deadline))
 			defer cancel()
 
